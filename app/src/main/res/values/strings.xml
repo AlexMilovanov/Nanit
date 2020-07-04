@@ -5,9 +5,9 @@
     <string name="details_field_birthday">Birthday</string>
     <string name="details_field_birthday_format">MMM d, yyyy</string>
     <string name="details_field_error_msg">Mandatory field</string>
+    <string name="details_field_photo">Photo</string>
     <string name="details_btn_next">Show birthday screen</string>
     <string name="details_date_picker_title">Baby\'s Birthday</string>
-
-
+    <string name="details_select_from_gallery">Select a photo</string>
 
 </resources>

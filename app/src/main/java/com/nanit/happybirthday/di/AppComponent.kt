@@ -1,6 +1,6 @@
 package com.nanit.happybirthday.di
 
-import com.nanit.happybirthday.DetailsActivity
+import com.nanit.happybirthday.view.DetailsActivity
 import dagger.Component
 import javax.inject.Singleton
 

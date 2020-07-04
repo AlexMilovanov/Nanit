@@ -1,4 +1,4 @@
-package com.nanit.happybirthday.util
+package com.nanit.happybirthday.ext
 
 import android.text.Editable
 import android.text.TextWatcher
