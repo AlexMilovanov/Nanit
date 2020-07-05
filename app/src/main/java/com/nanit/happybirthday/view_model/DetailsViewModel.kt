@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.*
 import com.nanit.happybirthday.model.Baby
 import com.nanit.happybirthday.model.Repository
+import com.nanit.happybirthday.util.LiveEvent
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -32,6 +33,10 @@ class DetailsViewModel @Inject constructor(val repo: Repository) : ViewModel() {
         get() = mutablePhotoUri
     private val mutablePhotoUri = MutableLiveData<Uri?>()
 
+    val missingDataError: LiveData<LiveEvent<Any>>
+        get() = missingDataErrorEvent
+    private val missingDataErrorEvent = MutableLiveData<LiveEvent<Any>>()
+
     init {
         viewModelScope.launch {
             repo.getBabyData()?.let {
@@ -44,7 +49,12 @@ class DetailsViewModel @Inject constructor(val repo: Repository) : ViewModel() {
         }
     }
 
-    fun updateBabyData(name: String, dobMillis: Long, photoUri: Uri?) {
+    fun updateBabyData(name: String?, dobMillis: Long?, photoUri: Uri?) {
+        if (name.isNullOrEmpty() || dobMillis == null) {
+            missingDataErrorEvent.postValue(LiveEvent(Any()))
+            return
+        }
+
         viewModelScope.launch {
             repo.saveBabyData(
                 Baby(name, Date(dobMillis), photoUri?.toString() ?: "")

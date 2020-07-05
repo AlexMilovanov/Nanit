@@ -22,6 +22,7 @@ import com.nanit.happybirthday.databinding.ActivityDetailsBinding
 import com.nanit.happybirthday.util.ext.afterTextChanged
 import com.nanit.happybirthday.util.ext.loadImage
 import com.nanit.happybirthday.util.*
+import kotlinx.android.synthetic.main.activity_details.*
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -49,10 +50,10 @@ class DetailsActivity : AppCompatActivity() {
         )
     }
 
-    private var selectedBirthdayMillis: Long = System.currentTimeMillis()
-
     private val constraintsBuilder = CalendarConstraints.Builder()
     private val datePickerBuilder = MaterialDatePicker.Builder.datePicker()
+
+    private var selectedBirthdayMillis: Long? = null
 
     private var photoUri: Uri? = null
 
@@ -104,6 +105,10 @@ class DetailsActivity : AppCompatActivity() {
             photoUri.observe(this@DetailsActivity, Observer { uri ->
                 updatePhoto(uri)
             })
+
+            missingDataError.observe(this@DetailsActivity, Observer {
+                showMandatoryFieldError()
+            })
         }
     }
 
@@ -130,6 +135,7 @@ class DetailsActivity : AppCompatActivity() {
             }
 
             etBirthday.setOnClickListener {
+                tilBirthday.error = null
                 showDatePicker(selectedBirthdayMillis ?: detailsVm.pickerEndDate) {
                     updateDateOfBirth(it)
                 }
@@ -223,5 +229,16 @@ class DetailsActivity : AppCompatActivity() {
 
         binding.etPhoto.setText(uri.path.toString())
         binding.ivPhoto.loadImage(uri, circleCrop = true)
+    }
+
+
+    private fun showMandatoryFieldError() {
+        if (etName.text.isNullOrEmpty()) {
+            tilName.error = getString(R.string.details_field_error_msg)
+        }
+
+        if (etBirthday.text.isNullOrEmpty()) {
+            tilBirthday.error = getString(R.string.details_field_error_msg)
+        }
     }
 }
