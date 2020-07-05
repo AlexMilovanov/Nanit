@@ -7,7 +7,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
+import android.view.View
 import android.view.WindowManager
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -47,12 +49,14 @@ class DetailsActivity : AppCompatActivity() {
         )
     }
 
-    private var selectedBirthdayMillis: Long? = null
+    private var selectedBirthdayMillis: Long = System.currentTimeMillis()
 
     private val constraintsBuilder = CalendarConstraints.Builder()
     private val datePickerBuilder = MaterialDatePicker.Builder.datePicker()
 
-    private var tmpCameraPhotoUri: Uri? = null
+    private var photoUri: Uri? = null
+
+    private var imagePickerDialog: AlertDialog? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,8 +72,11 @@ class DetailsActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK) return
         when (requestCode) {
-            REQUEST_GALLERY -> updatePhoto(data?.data)
-            REQUEST_CAMERA -> updatePhoto(tmpCameraPhotoUri)
+            REQUEST_GALLERY -> {
+                photoUri = data?.data
+                updatePhoto(photoUri)
+            }
+            REQUEST_CAMERA -> updatePhoto(photoUri)
         }
     }
 
@@ -93,6 +100,10 @@ class DetailsActivity : AppCompatActivity() {
                 selectedBirthdayMillis = it.time
                 binding.etBirthday.setText(dateFormat.format(it))
             })
+
+            photoUri.observe(this@DetailsActivity, Observer { uri ->
+                updatePhoto(uri)
+            })
         }
     }
 
@@ -103,19 +114,14 @@ class DetailsActivity : AppCompatActivity() {
         with(binding) {
 
             ivPhoto.setOnClickListener {
-                //chooseFromGallery()
-                if (appRequiresRuntimePermissions() &&
-                    !isWriteExtStoragePermissionGranted(this@DetailsActivity)) {
-                    requestWriteExtStoragePermission(this@DetailsActivity, REQUEST_WRITE_EXT_STORAGE_PERMISSION)
-                } else {
-                    openCamera()
-                }
+                showPhotoChooser()
             }
 
             btnNext.setOnClickListener {
                 detailsVm.updateBabyData(
                     binding.etName.text.toString(),
-                    selectedBirthdayMillis!!
+                    selectedBirthdayMillis,
+                    photoUri
                 )
             }
 
@@ -163,6 +169,30 @@ class DetailsActivity : AppCompatActivity() {
         binding.etBirthday.setText(dateFormat.format(Date(dateMillis)))
     }
 
+    private fun showPhotoChooser() {
+        val builder = AlertDialog.Builder(this)
+        LayoutInflater.from(this)
+            .inflate(R.layout.dialog_select_photo_chooser, null).apply {
+                findViewById<View>(R.id.tvChooseExistingPhoto)
+                    .setOnClickListener {
+                        imagePickerDialog?.dismiss()
+                        chooseFromGallery()
+                    }
+                findViewById<View>(R.id.tvTakeNewPhoto)
+                    .setOnClickListener {
+                        imagePickerDialog?.dismiss()
+                        if (appRequiresRuntimePermissions() &&
+                            !isWriteExtStoragePermissionGranted(this@DetailsActivity)) {
+                            requestWriteExtStoragePermission(this@DetailsActivity, REQUEST_WRITE_EXT_STORAGE_PERMISSION)
+                        } else {
+                            openCamera()
+                        }
+                    }
+            }.also { builder.setView(it) }
+
+        imagePickerDialog = builder.create().also { it.show() }
+    }
+
     private fun chooseFromGallery() {
         val intent = Intent().apply {
             type = "image/*"
@@ -177,22 +207,21 @@ class DetailsActivity : AppCompatActivity() {
         )
     }
 
-    private fun updatePhoto(uri: Uri?) {
-        if (uri == null) return
-        binding.etPhoto.setText(uri.path.toString())
-        binding.ivPhoto.loadImage(uri, circleCrop = true)
-    }
-
     private fun openCamera() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (takePictureIntent.resolveActivity(packageManager) != null) {
             createImageFile(this)?.let {
-                tmpCameraPhotoUri = it
+                photoUri = it
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, it)
-                startActivityForResult(takePictureIntent,
-                    REQUEST_CAMERA
-                )
+                startActivityForResult(takePictureIntent, REQUEST_CAMERA)
             }
         }
+    }
+
+    private fun updatePhoto(uri: Uri?) {
+        if (uri == null) return
+
+        binding.etPhoto.setText(uri.path.toString())
+        binding.ivPhoto.loadImage(uri, circleCrop = true)
     }
 }

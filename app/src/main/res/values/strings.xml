@@ -10,4 +10,7 @@
     <string name="details_date_picker_title">Baby\'s Birthday</string>
     <string name="details_select_from_gallery">Select a photo</string>
 
+    <string name="dialog_photo_chooser_title">Select an option</string>
+    <string name="dialog_photo_chooser_existing">Choose an existing photo</string>
+    <string name="dialog_photo_chooser_new">Take a new photo</string>
 </resources>
