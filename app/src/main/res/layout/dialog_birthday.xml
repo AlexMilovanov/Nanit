@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/ivPlaceholder"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guidelineTop"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/img_placeholder_blue" />
+
+    <ImageView
+        android:id="@+id/ivBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="h105:151"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/img_popup_pelican" />
+
+    <ImageView
+        android:id="@+id/ivCloseBtn"
+        android:layout_width="@dimen/birthday_button_close_size"
+        android:layout_height="@dimen/birthday_button_close_size"
+        android:padding="@dimen/birthday_button_close_padding"
+        android:src="@drawable/btn_close"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tvCongratsHeadline1"
+        style="@style/TextAppearance.MaterialComponents.Headline5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAllCaps="true"
+        android:gravity="center_horizontal"
+        android:maxLines="2"
+        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintBottom_toTopOf="@id/ivAgeDigit1"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineRight"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/ivCloseBtn"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Today Alice is"/>
+
+    <ImageView
+        android:id="@+id/ivSwirlLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_swirls_left"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintEnd_toStartOf="@+id/ivAgeDigit1"
+        app:layout_constraintTop_toBottomOf="@id/ivAgeDigit1"
+        app:layout_constraintBottom_toTopOf="@id/ivAgeDigit1"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/ivAgeDigit1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintStart_toEndOf="@id/ivSwirlLeft"
+        app:layout_constraintEnd_toStartOf="@+id/ivAgeDigit2"
+        app:layout_constraintTop_toBottomOf="@id/tvCongratsHeadline1"
+        app:layout_constraintBottom_toTopOf="@id/tvCongratsHeadline2"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/img_number_one"/>
+
+    <ImageView
+        android:id="@+id/ivAgeDigit2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/ivAgeDigit1"
+        app:layout_constraintEnd_toStartOf="@id/ivSwirlRight"
+        app:layout_constraintTop_toBottomOf="@id/tvCongratsHeadline1"
+        app:layout_constraintBottom_toTopOf="@id/tvCongratsHeadline2"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/img_number_zero"
+        tools:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/ivSwirlRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/img_swirls_right"
+        app:layout_constraintStart_toEndOf="@id/ivAgeDigit2"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+        app:layout_constraintTop_toTopOf="@id/ivAgeDigit2"
+        app:layout_constraintBottom_toBottomOf="@id/ivAgeDigit2"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tvCongratsHeadline2"
+        style="@style/TextAppearance.MaterialComponents.Headline5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAllCaps="true"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toTopOf="@id/guidelineTop"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineRight"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/ivAgeDigit1"
+        tools:text="months old!"/>
+
+    <ImageView
+        android:id="@+id/ivCameraBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="36dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guidelineTop"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.11"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/ic_camera_blue"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.46" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
