@@ -1,4 +1,4 @@
-package com.nanit.happybirthday.ext
+package com.nanit.happybirthday.util.ext
 
 import android.net.Uri
 import android.widget.ImageView
