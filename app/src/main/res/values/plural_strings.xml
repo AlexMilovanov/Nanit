@@ -2,13 +2,13 @@
 <resources>
 
     <plurals name="age_month">
-        <item quantity="one">%d month old!</item>
-        <item quantity="other">%d months old!</item>
+        <item quantity="one">month old!</item>
+        <item quantity="other">months old!</item>
     </plurals>
 
     <plurals name="age_year">
-        <item quantity="one">%d year old!</item>
-        <item quantity="other">%d years old!</item>
+        <item quantity="one">year old!</item>
+        <item quantity="other">years old!</item>
     </plurals>
 
 </resources>

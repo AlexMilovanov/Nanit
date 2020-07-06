@@ -37,6 +37,7 @@ dependencies {
     def dagger_version = "2.27"
     def material_components_version = "1.1.0"
     def glide_version = "4.10.0"
+    def joda_time_version = "2.10.6"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -57,4 +58,5 @@ dependencies {
     implementation "com.google.android.material:material:$material_components_version"
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
+    implementation "joda-time:joda-time:$joda_time_version"
 }

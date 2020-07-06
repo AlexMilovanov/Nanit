@@ -51,6 +51,11 @@ class BirthdayDialogFragment : DialogFragment() {
         observeVm()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun getTheme(): Int = R.style.FullScreenDialogTheme
 
     private fun initUi(style: BirthdayStyle) {
@@ -68,15 +73,47 @@ class BirthdayDialogFragment : DialogFragment() {
             })
             photoUri.observe(this@BirthdayDialogFragment, Observer { uri ->
                 uri?.let {
-                    binding.ivBabyPhoto.loadImage(uri, true,
-                        birthdayVm.getBirthdayStyle().photoPlaceholderResId)
+                    binding.ivBabyPhoto.loadImage(
+                        uri, true,
+                        birthdayVm.getBirthdayStyle().photoPlaceholderResId
+                    )
                 }
+            })
+            age.observe(this@BirthdayDialogFragment, Observer {
+                displayAge(it)
             })
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun displayAge(age: Age) {
+        binding.tvCongratsHeadline2.text = when (age) {
+            is Age.Years -> {
+                resources.getQuantityString(
+                    R.plurals.age_year,
+                    if (age.showHalfYear) 2 else age.years
+                )
+            }
+            is Age.Months -> {
+                resources.getQuantityString(
+                    R.plurals.age_month,
+                    if (age.showHalfMonth) 2 else age.months
+                )
+            }
+        }
+
+        if (age.showHalf) {
+            binding.ivAgeDigit1.setImageResource(getOneAndHalfDrawableResId())
+            binding.ivAgeDigit2.visibility = View.GONE
+            return
+        }
+
+        binding.ivAgeDigit1.setImageResource(getDigitDrawableResId(age.num))
+
+        if (age.num/10 >= 1) {
+            binding.ivAgeDigit2.visibility = View.VISIBLE
+            binding.ivAgeDigit2.setImageResource(getDigitDrawableResId(age.num%10))
+        } else {
+            binding.ivAgeDigit2.visibility = View.GONE
+        }
     }
 }
