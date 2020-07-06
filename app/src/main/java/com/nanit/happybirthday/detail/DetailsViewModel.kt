@@ -1,4 +1,4 @@
-package com.nanit.happybirthday.view_model
+package com.nanit.happybirthday.detail
 
 import android.net.Uri
 import androidx.lifecycle.*
@@ -37,6 +37,10 @@ class DetailsViewModel @Inject constructor(val repo: Repository) : ViewModel() {
         get() = missingDataErrorEvent
     private val missingDataErrorEvent = MutableLiveData<LiveEvent<Any>>()
 
+    val showBirthdayScreen: LiveData<LiveEvent<Any>>
+        get() = showBirthdayScreenEvent
+    private val showBirthdayScreenEvent = MutableLiveData<LiveEvent<Any>>()
+
     init {
         viewModelScope.launch {
             repo.getBabyData()?.let {
@@ -60,6 +64,8 @@ class DetailsViewModel @Inject constructor(val repo: Repository) : ViewModel() {
                 Baby(name, Date(dobMillis), photoUri?.toString() ?: "")
             )
         }
+
+        showBirthdayScreenEvent.postValue(LiveEvent(Any()))
     }
 
 }

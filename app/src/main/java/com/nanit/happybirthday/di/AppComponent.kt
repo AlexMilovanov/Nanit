@@ -1,6 +1,7 @@
 package com.nanit.happybirthday.di
 
-import com.nanit.happybirthday.view.DetailsActivity
+import com.nanit.happybirthday.birthday.BirthdayDialogFragment
+import com.nanit.happybirthday.detail.DetailsActivity
 import dagger.Component
 import javax.inject.Singleton
 
@@ -9,4 +10,6 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun inject(activity: DetailsActivity)
+
+    fun inject(fragment: BirthdayDialogFragment)
 }

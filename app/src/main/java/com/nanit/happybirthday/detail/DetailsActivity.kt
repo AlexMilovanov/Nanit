@@ -1,4 +1,4 @@
-package com.nanit.happybirthday.view
+package com.nanit.happybirthday.detail
 
 import android.app.Activity
 import android.content.Intent
@@ -15,13 +15,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.nanit.happybirthday.NanitApp
 import com.nanit.happybirthday.R
-import com.nanit.happybirthday.view_model.DetailsViewModel
 import com.nanit.happybirthday.databinding.ActivityDetailsBinding
 import com.nanit.happybirthday.util.ext.afterTextChanged
 import com.nanit.happybirthday.util.ext.loadImage
 import com.nanit.happybirthday.util.*
+import com.nanit.happybirthday.util.ext.myApplication
+import com.nanit.happybirthday.birthday.BirthdayDialogFragment
 import kotlinx.android.synthetic.main.activity_details.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -61,7 +61,7 @@ class DetailsActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (applicationContext as NanitApp).appComponent.inject(this)
+        this.myApplication.appComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityDetailsBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
@@ -109,6 +109,10 @@ class DetailsActivity : AppCompatActivity() {
             missingDataError.observe(this@DetailsActivity, Observer {
                 showMandatoryFieldError()
             })
+
+            showBirthdayScreen.observe(this@DetailsActivity, Observer {
+                showBirthdayScreen()
+            })
         }
     }
 
@@ -118,7 +122,7 @@ class DetailsActivity : AppCompatActivity() {
 
         with(binding) {
 
-            ivPhoto.setOnClickListener {
+            ivThumbnail.setOnClickListener {
                 showPhotoChooser()
             }
 
@@ -189,7 +193,9 @@ class DetailsActivity : AppCompatActivity() {
                         imagePickerDialog?.dismiss()
                         if (appRequiresRuntimePermissions() &&
                             !isWriteExtStoragePermissionGranted(this@DetailsActivity)) {
-                            requestWriteExtStoragePermission(this@DetailsActivity, REQUEST_WRITE_EXT_STORAGE_PERMISSION)
+                            requestWriteExtStoragePermission(this@DetailsActivity,
+                                REQUEST_WRITE_EXT_STORAGE_PERMISSION
+                            )
                         } else {
                             openCamera()
                         }
@@ -219,7 +225,9 @@ class DetailsActivity : AppCompatActivity() {
             createImageFile(this)?.let {
                 photoUri = it
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, it)
-                startActivityForResult(takePictureIntent, REQUEST_CAMERA)
+                startActivityForResult(takePictureIntent,
+                    REQUEST_CAMERA
+                )
             }
         }
     }
@@ -227,8 +235,9 @@ class DetailsActivity : AppCompatActivity() {
     private fun updatePhoto(uri: Uri?) {
         if (uri == null) return
 
+        photoUri = uri
         binding.etPhoto.setText(uri.path.toString())
-        binding.ivPhoto.loadImage(uri, circleCrop = true)
+        binding.ivThumbnail.loadImage(uri, circleCrop = true, placeholderResId = R.drawable.img_placeholder_blue)
     }
 
 
@@ -240,5 +249,10 @@ class DetailsActivity : AppCompatActivity() {
         if (etBirthday.text.isNullOrEmpty()) {
             tilBirthday.error = getString(R.string.details_field_error_msg)
         }
+    }
+
+    private fun showBirthdayScreen() {
+        BirthdayDialogFragment.newInstance()
+            .show(supportFragmentManager, BirthdayDialogFragment::class.java.simpleName)
     }
 }

@@ -14,6 +14,6 @@
     <string name="dialog_photo_chooser_existing">Choose an existing photo</string>
     <string name="dialog_photo_chooser_new">Take a new photo</string>
 
-    <string name="birthday_title">Today %1$s is</string>
+    <string name="birthday_headline">Today %1$s is</string>
     <string name="birthday_share_btn_text">Share the news</string>
 </resources>
