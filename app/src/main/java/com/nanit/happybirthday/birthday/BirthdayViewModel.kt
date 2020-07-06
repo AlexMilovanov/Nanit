@@ -1,10 +1,7 @@
 package com.nanit.happybirthday.birthday
 
 import android.net.Uri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.nanit.happybirthday.model.Repository
 import com.nanit.happybirthday.util.calculateAgeYearMonths
 import kotlinx.coroutines.launch
@@ -17,13 +14,11 @@ class BirthdayViewModel @Inject constructor(val repo: Repository) : ViewModel() 
         get() = mutableName
     private val mutableName = MutableLiveData<String>()
 
-    val photoUri: LiveData<Uri?>
-        get() = mutablePhotoUri
-    private val mutablePhotoUri = MutableLiveData<Uri?>()
-
     val age: LiveData<Age>
         get() = mutableAge
     private val mutableAge = MutableLiveData<Age>()
+
+    val photoUri: LiveData<Uri?>
 
     private var style: BirthdayStyle? = null
 
@@ -31,12 +26,10 @@ class BirthdayViewModel @Inject constructor(val repo: Repository) : ViewModel() 
         viewModelScope.launch {
             repo.getBabyData()?.let {
                 mutableName.postValue(it.name)
-                mutablePhotoUri.postValue(
-                    if (it.photoPath.isEmpty()) { null } else { Uri.parse(it.photoPath) }
-                )
                 mutableAge.postValue(calculateAge(it.birthday.time))
             }
         }
+        photoUri = repo.getBabyPhotoPath()
     }
 
     fun getBirthdayStyle(): BirthdayStyle {
@@ -54,7 +47,7 @@ class BirthdayViewModel @Inject constructor(val repo: Repository) : ViewModel() 
                 Age.Years(age.first, showHalfYear = age.first == 1 && age.second >= 6)
             }
             else -> {
-                Age.Months(age.second, showHalfMonth = age.second == 1 && age.third >=2)
+                Age.Months(age.second, showHalfMonth = age.second == 1 && age.third >= 2)
             }
         }
     }

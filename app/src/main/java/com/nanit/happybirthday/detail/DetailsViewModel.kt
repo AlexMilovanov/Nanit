@@ -30,8 +30,6 @@ class DetailsViewModel @Inject constructor(val repo: Repository) : ViewModel() {
     private val mutableBirthDate = MutableLiveData<Date>()
 
     val photoUri: LiveData<Uri?>
-        get() = mutablePhotoUri
-    private val mutablePhotoUri = MutableLiveData<Uri?>()
 
     val missingDataError: LiveData<LiveEvent<Any>>
         get() = missingDataErrorEvent
@@ -46,11 +44,9 @@ class DetailsViewModel @Inject constructor(val repo: Repository) : ViewModel() {
             repo.getBabyData()?.let {
                 mutableName.postValue(it.name)
                 mutableBirthDate.postValue(it.birthday)
-                mutablePhotoUri.postValue(
-                    if(it.photoPath.isEmpty()) { null } else { Uri.parse(it.photoPath) }
-                )
             }
         }
+        photoUri = repo.getBabyPhotoPath()
     }
 
     fun updateBabyData(name: String?, dobMillis: Long?, photoUri: Uri?) {
@@ -66,6 +62,12 @@ class DetailsViewModel @Inject constructor(val repo: Repository) : ViewModel() {
         }
 
         showBirthdayScreenEvent.postValue(LiveEvent(Any()))
+    }
+
+    fun updatePhoto(uri: String) {
+        viewModelScope.launch {
+            repo.updateBabyPhoto(uri)
+        }
     }
 
 }

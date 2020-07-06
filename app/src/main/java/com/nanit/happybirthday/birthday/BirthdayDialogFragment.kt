@@ -17,10 +17,14 @@ import javax.inject.Inject
 class BirthdayDialogFragment : DialogFragment() {
 
     companion object {
+        val TAG = BirthdayDialogFragment::class.java.simpleName
+
         fun newInstance(): BirthdayDialogFragment {
             return BirthdayDialogFragment()
         }
     }
+
+    internal var callback: OnChangePhotoListener? = null
 
     private var _binding: DialogBirthdayBinding? = null
     private val binding
@@ -56,6 +60,10 @@ class BirthdayDialogFragment : DialogFragment() {
         _binding = null
     }
 
+    fun setOnChangePhotoListener(callback: OnChangePhotoListener) {
+        this.callback = callback
+    }
+
     override fun getTheme(): Int = R.style.FullScreenDialogTheme
 
     private fun initUi(style: BirthdayStyle) {
@@ -63,6 +71,9 @@ class BirthdayDialogFragment : DialogFragment() {
             ivCloseBtn.setOnClickListener { dismiss() }
             ivBackground.setImageResource(style.backgroundImageResId)
             ivCameraBtn.setImageResource(style.cameraIconResId)
+            ivCameraBtn.setOnClickListener {
+                callback?.onChangePhotoClicked()
+            }
         }
     }
 
@@ -115,5 +126,9 @@ class BirthdayDialogFragment : DialogFragment() {
         } else {
             binding.ivAgeDigit2.visibility = View.GONE
         }
+    }
+
+    interface OnChangePhotoListener {
+        fun onChangePhotoClicked()
     }
 }

@@ -11,6 +11,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.datepicker.CalendarConstraints
@@ -27,7 +28,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class DetailsActivity : AppCompatActivity() {
+class DetailsActivity : AppCompatActivity(), BirthdayDialogFragment.OnChangePhotoListener {
 
     companion object {
         private const val REQUEST_GALLERY = 111
@@ -51,6 +52,7 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     private val constraintsBuilder = CalendarConstraints.Builder()
+
     private val datePickerBuilder = MaterialDatePicker.Builder.datePicker()
 
     private var selectedBirthdayMillis: Long? = null
@@ -74,8 +76,7 @@ class DetailsActivity : AppCompatActivity() {
         if (resultCode != Activity.RESULT_OK) return
         when (requestCode) {
             REQUEST_GALLERY -> {
-                photoUri = data?.data
-                updatePhoto(photoUri)
+                updatePhoto(data?.data)
             }
             REQUEST_CAMERA -> updatePhoto(photoUri)
         }
@@ -88,6 +89,16 @@ class DetailsActivity : AppCompatActivity() {
             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             openCamera()
         }
+    }
+
+    override fun onAttachFragment(fragment: Fragment) {
+        if (fragment is BirthdayDialogFragment) {
+            fragment.setOnChangePhotoListener(this)
+        }
+    }
+
+    override fun onChangePhotoClicked() {
+        showPhotoChooser()
     }
 
     private fun observeVm() {
@@ -236,10 +247,16 @@ class DetailsActivity : AppCompatActivity() {
         if (uri == null) return
 
         photoUri = uri
-        binding.etPhoto.setText(uri.path.toString())
-        binding.ivThumbnail.loadImage(uri, circleCrop = true, placeholderResId = R.drawable.img_placeholder_blue)
-    }
 
+        val birthdayFragment = supportFragmentManager.findFragmentByTag(BirthdayDialogFragment.TAG)
+        // If birthday screen is visible, just update the persisted photo path value
+        if (birthdayFragment != null && birthdayFragment.isVisible) {
+            detailsVm.updatePhoto(photoUri.toString())
+        } else {
+            binding.etPhoto.setText(uri.path.toString())
+            binding.ivThumbnail.loadImage(uri, circleCrop = true, placeholderResId = R.drawable.img_placeholder_blue)
+        }
+    }
 
     private fun showMandatoryFieldError() {
         if (etName.text.isNullOrEmpty()) {
@@ -253,6 +270,6 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun showBirthdayScreen() {
         BirthdayDialogFragment.newInstance()
-            .show(supportFragmentManager, BirthdayDialogFragment::class.java.simpleName)
+            .show(supportFragmentManager, BirthdayDialogFragment.TAG)
     }
 }
