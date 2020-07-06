@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -73,6 +74,9 @@ class BirthdayDialogFragment : DialogFragment() {
             ivCameraBtn.setImageResource(style.cameraIconResId)
             ivCameraBtn.setOnClickListener {
                 callback?.onChangePhotoClicked()
+            }
+            btnShare.setOnClickListener {
+                Toast.makeText(context, "SHARE!", Toast.LENGTH_LONG).show()
             }
         }
     }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -44,57 +43,57 @@
 
     <TextView
         android:id="@+id/tvCongratsHeadline1"
-        style="@style/TextAppearance.MaterialComponents.Headline5"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textAllCaps="true"
         android:gravity="center_horizontal"
         android:maxLines="2"
-        app:layout_constraintVertical_bias="0.2"
+        android:textAllCaps="true"
         app:layout_constraintBottom_toTopOf="@id/ivAgeDigit1"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineRight"
-        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+        app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@id/ivCloseBtn"
+        app:layout_constraintVertical_bias="0.15"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:text="Today Alice is"/>
+        tools:text="Today Alice is" />
 
     <ImageView
         android:id="@+id/ivSwirlLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/img_swirls_left"
         android:layout_marginEnd="16dp"
-        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
-        app:layout_constraintEnd_toStartOf="@+id/ivAgeDigit1"
-        app:layout_constraintTop_toBottomOf="@id/ivAgeDigit1"
+        android:src="@drawable/img_swirls_left"
         app:layout_constraintBottom_toTopOf="@id/ivAgeDigit1"
+        app:layout_constraintEnd_toStartOf="@id/ivAgeDigit1"
         app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/ivAgeDigit1"
         tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/ivAgeDigit1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintStart_toEndOf="@id/ivSwirlLeft"
-        app:layout_constraintEnd_toStartOf="@+id/ivAgeDigit2"
-        app:layout_constraintTop_toBottomOf="@id/tvCongratsHeadline1"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toTopOf="@id/tvCongratsHeadline2"
+        app:layout_constraintEnd_toStartOf="@id/ivAgeDigit2"
+        app:layout_constraintStart_toEndOf="@id/ivSwirlLeft"
+        app:layout_constraintTop_toBottomOf="@id/tvCongratsHeadline1"
         tools:ignore="ContentDescription"
-        tools:src="@drawable/img_number_one"/>
+        tools:src="@drawable/img_number_one" />
 
     <ImageView
         android:id="@+id/ivAgeDigit2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/ivAgeDigit1"
-        app:layout_constraintEnd_toStartOf="@id/ivSwirlRight"
-        app:layout_constraintTop_toBottomOf="@id/tvCongratsHeadline1"
         app:layout_constraintBottom_toTopOf="@id/tvCongratsHeadline2"
+        app:layout_constraintEnd_toStartOf="@id/ivSwirlRight"
+        app:layout_constraintStart_toEndOf="@id/ivAgeDigit1"
+        app:layout_constraintTop_toBottomOf="@id/tvCongratsHeadline1"
         tools:ignore="ContentDescription"
         tools:src="@drawable/img_number_zero"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/ivSwirlRight"
@@ -102,24 +101,68 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:src="@drawable/img_swirls_right"
-        app:layout_constraintStart_toEndOf="@id/ivAgeDigit2"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        app:layout_constraintTop_toTopOf="@id/ivAgeDigit2"
         app:layout_constraintBottom_toBottomOf="@id/ivAgeDigit2"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintStart_toEndOf="@id/ivAgeDigit2"
+        app:layout_constraintTop_toTopOf="@id/ivAgeDigit2"
         tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/tvCongratsHeadline2"
-        style="@style/TextAppearance.MaterialComponents.Headline5"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textAllCaps="true"
         android:gravity="center_horizontal"
+        android:textAllCaps="true"
         app:layout_constraintBottom_toTopOf="@id/guidelineTop"
-        app:layout_constraintEnd_toEndOf="@+id/guidelineRight"
-        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+        app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@id/ivAgeDigit1"
-        tools:text="months old!"/>
+        tools:text="months old!" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btnShare"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/btn_share"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toTopOf="@id/guidelineTop"
+        app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/tvCongratsHeadline2"
+        tools:ignore="ContentDescription">
+        
+        <TextView
+            android:id="@+id/tvShareBtnText"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:textColor="@color/colorAccent"
+            android:text="@string/birthday_share_btn_text"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivShareBtnIcon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"/>
+
+        <ImageView
+            android:id="@+id/ivShareBtnIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_share_pink"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvShareBtnText"
+            app:layout_constraintTop_toTopOf="parent"/>
+        
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/ivCameraBtn"
@@ -137,7 +180,7 @@
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.11"
         tools:ignore="ContentDescription"
-        tools:src="@drawable/ic_camera_blue"/>
+        tools:src="@drawable/ic_camera_blue" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineTop"
