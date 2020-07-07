@@ -236,9 +236,7 @@ class DetailsActivity : AppCompatActivity(), BirthdayDialogFragment.OnChangePhot
             createImageFile(this)?.let {
                 photoUri = it
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, it)
-                startActivityForResult(takePictureIntent,
-                    REQUEST_CAMERA
-                )
+                startActivityForResult(takePictureIntent, REQUEST_CAMERA)
             }
         }
     }

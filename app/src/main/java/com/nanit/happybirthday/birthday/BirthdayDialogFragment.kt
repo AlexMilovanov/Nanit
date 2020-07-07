@@ -1,11 +1,11 @@
 package com.nanit.happybirthday.birthday
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,7 +13,10 @@ import com.nanit.happybirthday.R
 import com.nanit.happybirthday.databinding.DialogBirthdayBinding
 import com.nanit.happybirthday.util.ext.loadImage
 import com.nanit.happybirthday.util.ext.myApplication
+import com.nanit.happybirthday.util.ext.takeScreenshot
+import com.nanit.happybirthday.util.saveScreenshot
 import javax.inject.Inject
+
 
 class BirthdayDialogFragment : DialogFragment() {
 
@@ -56,6 +59,11 @@ class BirthdayDialogFragment : DialogFragment() {
         observeVm()
     }
 
+    override fun onResume() {
+        super.onResume()
+        setNonShareableViewsVisibility(revert = true)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -76,7 +84,7 @@ class BirthdayDialogFragment : DialogFragment() {
                 callback?.onChangePhotoClicked()
             }
             btnShare.setOnClickListener {
-                Toast.makeText(context, "SHARE!", Toast.LENGTH_LONG).show()
+                shareScreenshot()
             }
         }
     }
@@ -124,12 +132,34 @@ class BirthdayDialogFragment : DialogFragment() {
 
         binding.ivAgeDigit1.setImageResource(getDigitDrawableResId(age.num))
 
-        if (age.num/10 >= 1) {
+        if (age.num / 10 >= 1) {
             binding.ivAgeDigit2.visibility = View.VISIBLE
-            binding.ivAgeDigit2.setImageResource(getDigitDrawableResId(age.num%10))
+            binding.ivAgeDigit2.setImageResource(getDigitDrawableResId(age.num % 10))
         } else {
             binding.ivAgeDigit2.visibility = View.GONE
         }
+    }
+
+    private fun shareScreenshot() {
+        setNonShareableViewsVisibility()
+        val bitmap = binding.root.takeScreenshot()
+        val uri = saveScreenshot(bitmap, context!!)
+        val intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "image/jpeg"
+            putExtra(Intent.EXTRA_STREAM, uri)
+        }
+        startActivity(Intent.createChooser(intent, resources.getString(R.string.intent_chooser_text)))
+    }
+
+    private fun setNonShareableViewsVisibility(revert: Boolean = false) {
+        val visibility = if (revert) View.VISIBLE else View.INVISIBLE
+        binding.run {
+            ivCloseBtn.visibility = visibility
+            btnShare.visibility = visibility
+            ivCameraBtn.visibility = visibility
+        }
+        binding.root.invalidate()
     }
 
     interface OnChangePhotoListener {

@@ -16,4 +16,6 @@
 
     <string name="birthday_headline">Today %1$s is</string>
     <string name="birthday_share_btn_text">Share the news</string>
+
+    <string name="intent_chooser_text">Please select</string>
 </resources>
